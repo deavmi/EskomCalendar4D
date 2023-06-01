@@ -91,7 +91,7 @@ public class EskomCalendar
         this("https://eskom-calendar-api.shuttleapp.rs/v0.0.1/");
     }
 
-    public Schedule[] getSchedules(string area)
+    public Schedule[] getSchedules(string area, SysTime startTime = SysTime.min(), SysTime finishTime = SysTime.max())
     {
         Schedule[] schecules;
 
@@ -102,7 +102,12 @@ public class EskomCalendar
         JSONValue[] schedulesJSON = parseJSON(data).array();
         foreach(JSONValue schedule; schedulesJSON)
         {
-            schecules ~= Schedule.fromJSON(schedule);
+            Schedule curSchedule = Schedule.fromJSON(schedule);
+
+            if(curSchedule.getStart() >= startTime && curSchedule.getFinish() <= finishTime)
+            {
+                schecules ~= curSchedule;
+            }
         }
         
 
@@ -117,26 +122,33 @@ public class EskomCalendar
         return schecules;
     }
 
+    // FIXME: This should basically make time left min and time right max
     public Schedule[] getTodaySchdules(string area)
     {
         import std.datetime.systime :  Clock;
+        import std.datetime.date : Date, DateTime;
+        import std.datetime.systime : SysTime;
+        
+
+        
+        Date today = cast(Date)Clock.currTime();
+
+        SysTime startTime;
+
+        // DateTime startD
+        
+
         return getSchdulesFrom(area, Clock.currTime());
     }
 
     public Schedule[] getSchdulesFrom(string area, SysTime startTime)
     {
-        Schedule[] schedules;
+        return getSchedules(area, startTime);
+    }
 
-        Schedule[] scheculesArea = getSchedules(area);
-        foreach(Schedule schedule; scheculesArea)
-        {
-            if(schedule.getStart() >= startTime)
-            {
-                schedules ~= schedule;
-            }
-        }
-
-        return schedules;
+    public Schedule[] getSchdulesUntil(string area, SysTime finishTime)
+    {
+        return getSchedules(area, SysTime.min(), finishTime);
     }
 
     public string[] getAreas()
