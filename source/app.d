@@ -1,12 +1,13 @@
 import std.stdio;
 import std.json;
-import std.net.curl : get;
+import std.net.curl : get, CurlException;
 import std.conv : to;
 
 
 public enum ErrType
 {
-    NO_AREAS_AVAILABLE
+    NO_AREAS_AVAILABLE,
+    NO_SCHEDULES_AVAILABLE
 }
 
 public final class EskomCalendarException : Exception
@@ -17,6 +18,61 @@ public final class EskomCalendarException : Exception
     {
         this.errType = errType;
         super(to!(string)(errType)~(msg.length ? (": "~msg) : ""));
+    }
+}
+
+import std.datetime : SysTime;
+
+public struct Schedule
+{
+    /** 
+     * Area this schedule applies to
+     */
+    private string area;
+
+    /** 
+     * The stage level (god forbid bigger than a byte)
+     */
+    private ubyte stage;
+
+    /** 
+     * Start and finish time
+     */
+    private SysTime start, finish;
+
+    this(string area, ubyte stage, SysTime start, SysTime finish)
+    {
+        this.area = area;
+        this.stage = stage;
+        this.start = start;
+        this.finish = finish;
+    }
+
+    public SysTime getStart()
+    {
+        return start;
+    }
+
+    public SysTime getFinish()
+    {
+        return finish;
+    }
+
+    public static Schedule fromJSON(JSONValue value)
+    {
+        Schedule schedule;
+
+        schedule.area = value["area_name"].str();
+        schedule.stage = cast(ubyte)(value["stage"].integer());
+        schedule.start = SysTime.fromISOExtString(value["start"].str());
+        schedule.finish = SysTime.fromISOExtString(value["finsh"].str());
+
+        return schedule;
+    }
+
+    public string toString()
+    {
+        return "Schedule [area: "~area~", stage: "~to!(string)(stage)~", from: "~start.toLocalTime().toSimpleString()~", to: "~finish.toLocalTime().toSimpleString()~"]";
     }
 }
 
@@ -33,6 +89,32 @@ public class EskomCalendar
     this()
     {
         this("https://eskom-calendar-api.shuttleapp.rs/v0.0.1/");
+    }
+
+    public Schedule[] getSchedules(string area)
+    {
+        Schedule[] schecules;
+
+        /** 
+         * Fetch the schedules and parse
+         */
+        string data = cast(string)get(calendarServer~"/outages/"~area);
+        JSONValue[] schedulesJSON = parseJSON(data).array();
+        foreach(JSONValue schedule; schedulesJSON)
+        {
+            schecules ~= Schedule.fromJSON(schedule);
+        }
+        
+
+        
+
+
+        if(schecules.length == 0)
+        {
+            throw new EskomCalendarException(ErrType.NO_SCHEDULES_AVAILABLE, "No schedules for area '"~area~"'");
+        }
+
+        return schecules;
     }
 
     public string[] getAreas()
@@ -61,6 +143,30 @@ public class EskomCalendar
         }
 
         return areasStr;
+    }
+}
+
+unittest
+{
+    EskomCalendar calendar = new EskomCalendar();
+
+    try
+    {
+        Schedule[] schedules = calendar.getSchedules("western-cape-worscester");
+        assert(schedules.length > 5);
+
+        foreach(Schedule schedule; schedules)
+        {
+            writeln(schedule);
+        }
+    }
+    catch(EskomCalendarException e)
+    {
+        assert(false);
+    }
+    catch(CurlException e)
+    {
+        writeln(e);
     }
 }
 
