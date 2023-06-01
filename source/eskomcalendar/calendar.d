@@ -1,9 +1,11 @@
-module eskomcalendar.app;
+module eskomcalendar.calendar;
 
 import std.stdio;
 import std.json;
 import std.net.curl : get, CurlException;
 import std.conv : to;
+
+import eskomcalendar.schedule;
 
 /** 
  * Kind-of error that occurred
@@ -40,58 +42,7 @@ public final class EskomCalendarException : Exception
 
 import std.datetime : SysTime;
 
-public struct Schedule
-{
-    /** 
-     * Area this schedule applies to
-     */
-    private string area;
 
-    /** 
-     * The stage level (god forbid bigger than a byte)
-     */
-    private ubyte stage;
-
-    /** 
-     * Start and finish time
-     */
-    private SysTime start, finish;
-
-    this(string area, ubyte stage, SysTime start, SysTime finish)
-    {
-        this.area = area;
-        this.stage = stage;
-        this.start = start;
-        this.finish = finish;
-    }
-
-    public SysTime getStart()
-    {
-        return start;
-    }
-
-    public SysTime getFinish()
-    {
-        return finish;
-    }
-
-    public static Schedule fromJSON(JSONValue value)
-    {
-        Schedule schedule;
-
-        schedule.area = value["area_name"].str();
-        schedule.stage = cast(ubyte)(value["stage"].integer());
-        schedule.start = SysTime.fromISOExtString(value["start"].str());
-        schedule.finish = SysTime.fromISOExtString(value["finsh"].str());
-
-        return schedule;
-    }
-
-    public string toString()
-    {
-        return "Schedule [area: "~area~", stage: "~to!(string)(stage)~", from: "~start.toLocalTime().toSimpleString()~", to: "~finish.toLocalTime().toSimpleString()~"]";
-    }
-}
 
 public class EskomCalendar
 {
