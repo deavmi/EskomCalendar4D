@@ -117,6 +117,28 @@ public class EskomCalendar
         return schecules;
     }
 
+    public Schedule[] getTodaySchdules(string area)
+    {
+        import std.datetime.systime :  Clock;
+        return getSchdulesFrom(area, Clock.currTime());
+    }
+
+    public Schedule[] getSchdulesFrom(string area, SysTime startTime)
+    {
+        Schedule[] schedules;
+
+        Schedule[] scheculesArea = getSchedules(area);
+        foreach(Schedule schedule; scheculesArea)
+        {
+            if(schedule.getStart() >= startTime)
+            {
+                schedules ~= schedule;
+            }
+        }
+
+        return schedules;
+    }
+
     public string[] getAreas()
     {
         return getAreas("");
@@ -143,6 +165,28 @@ public class EskomCalendar
         }
 
         return areasStr;
+    }
+}
+
+unittest
+{
+    EskomCalendar calendar = new EskomCalendar();
+
+    try
+    {
+        Schedule[] schedules = calendar.getTodaySchdules("western-cape-worscester");
+        foreach(Schedule schedule; schedules)
+        {
+            writeln("Today: "~schedule.toString());
+        }
+    }
+    catch(EskomCalendarException e)
+    {
+        assert(false);
+    }
+    catch(CurlException e)
+    {
+        writeln(e);
     }
 }
 
