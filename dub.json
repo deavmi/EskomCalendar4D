@@ -5,6 +5,6 @@
 	"copyright": "Copyright © 2023, Tristan B. Kildaire",
 	"description": "Eskom Calendar client API library for D",
 	"license": "GPL v3",
-	"name": "EskomCalendar4D",
+	"name": "eskomcalendar4d",
 	"targetType": "library"
 }
