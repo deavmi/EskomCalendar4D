@@ -122,7 +122,6 @@ public class EskomCalendar
         return schecules;
     }
 
-    // FIXME: This should basically make time left min and time right max
     public Schedule[] getTodaySchdules(string area)
     {
         import std.datetime.systime :  Clock;
@@ -130,15 +129,31 @@ public class EskomCalendar
         import std.datetime.systime : SysTime;
         
 
+        // Get just the date of today
+        Date todayDate = cast(Date)Clock.currTime();
+
+        SysTime startTime = cast(SysTime)todayDate;
+        SysTime endTime = cast(SysTime)todayDate;
+
+        version(unittest)
+        {
+            writeln("startTime: ", startTime);
+        }
         
-        Date today = cast(Date)Clock.currTime();
 
-        SysTime startTime;
+        import core.thread : dur;
+        endTime += dur!("hours")(24);
 
-        // DateTime startD
+
+        version(unittest)
+        {
+            writeln("endTime: ", endTime);
+        }
         
 
-        return getSchdulesFrom(area, Clock.currTime());
+        
+
+        return getSchedules(area, startTime, endTime);
     }
 
     public Schedule[] getSchdulesFrom(string area, SysTime startTime)
