@@ -93,10 +93,6 @@ public class EskomCalendar
                 schedules ~= curSchedule;
             }
         }
-        
-
-        
-
 
         if(schedules.length == 0)
         {
@@ -106,6 +102,14 @@ public class EskomCalendar
         return schedules;
     }
 
+    /** 
+     * Gets any schedules in the given area that would be valid for
+     * the 24 hours of today's date
+     *
+     * Params:
+     *   area = the area to check for schedules
+     * Returns: 
+     */
     public Schedule[] getTodaySchedules(string area)
     {
         import std.datetime.systime :  Clock;
