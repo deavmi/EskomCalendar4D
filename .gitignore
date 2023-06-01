@@ -16,3 +16,4 @@ loadshedd-test-*
 *.lst
 dub.selections.json
 eskomcalendar4d-test-library
+libeskomcalendar4d.a
