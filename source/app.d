@@ -42,7 +42,10 @@ public class EskomCalendar
 
     public string[] getAreas(string regex)
     {
-        // TODO: Check if we need to URL_encode the `regex`
+        // Apply any URL escaping needed
+        import std.uri : encode;
+        regex = encode(regex);
+
         string data = cast(string)get(calendarServer~"/list_areas/"~regex);
         JSONValue[] areas = parseJSON(data).array();
 
