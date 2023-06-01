@@ -37,6 +37,15 @@ public class EskomCalendar
         this("https://eskom-calendar-api.shuttleapp.rs/v0.0.1/");
     }
 
+    /** 
+     * Performs an HTTP GET request to the provided URL
+     * and wraps any exceptions in our `EskomCalendarException`
+     * type
+     *
+     * Params:
+     *   url = the URL to perform a GET on
+     * Returns: the response body
+     */
     private final string doGet(string url)
     {
         try
