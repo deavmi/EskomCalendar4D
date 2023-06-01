@@ -318,12 +318,3 @@ unittest
         assert(false);
     }
 }
-
-void main()
-{
-	// string data = cast(string)get("https://eskom-calendar-api.shuttleapp.rs/v0.0.1/list_areas");
-    // writeln(data);
-    EskomCalendar calendar = new EskomCalendar();
-    string[] areas = calendar.getAreas();
-    writeln(areas);
-}

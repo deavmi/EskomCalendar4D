@@ -2,8 +2,9 @@
 	"authors": [
 		"Tristan B. V. Kildaire"
 	],
-	"copyright": "Copyright © 2023, Tristan B. V. Kildaire",
-	"description": "The results of democracy",
+	"copyright": "Copyright © 2023, Tristan B. Kildaire",
+	"description": "Eskom Calendar client API library for D",
 	"license": "GPL v3",
-	"name": "loadshedd"
+	"name": "EskomCalendar4D",
+	"targetType": "library"
 }
