@@ -1,3 +1,5 @@
+module eskomcalendar.app;
+
 import std.stdio;
 import std.json;
 import std.net.curl : get, CurlException;
