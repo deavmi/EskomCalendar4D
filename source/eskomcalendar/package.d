@@ -1,3 +1,6 @@
+/**
+ * The eskomcalendar4d eskom-calendar API client for D
+ */
 module eskomcalendar;
 
 /**
