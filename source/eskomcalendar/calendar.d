@@ -207,6 +207,10 @@ public class EskomCalendar
     }
 }
 
+/**
+ * Get the schedules that will occur within today's 24 hours
+ * in the `western-cape-worscester` area
+ */
 unittest
 {
     EskomCalendar calendar = new EskomCalendar();
@@ -226,6 +230,10 @@ unittest
     }
 }
 
+/** 
+ * Get the first 10 areas and then all schedules
+ * of each said area
+ */
 unittest
 {
     EskomCalendar calendar = new EskomCalendar();
@@ -245,6 +253,9 @@ unittest
     }
 }
 
+/**
+ * Get the schedules for the `western-cape-worscester` area
+ */
 unittest
 {
     EskomCalendar calendar = new EskomCalendar();
@@ -266,6 +277,9 @@ unittest
     }
 }
 
+/**
+ * Get the first 40 areas and print them
+ */
 unittest
 {
     EskomCalendar calendar = new EskomCalendar();
