@@ -166,3 +166,29 @@ unittest
         assert(false);
     }
 }
+
+/**
+ * Test building a `Schedule` from the example JSON
+ * buit where the JSON is BROKEN
+ */
+private unittest
+{
+    string json = `
+    {
+    "area_name": "western-cape-worscester",
+    "stage": 4,
+    "start": "2023-06-01T14:00:00+02:00",
+    "finsh": 2
+  }`;
+
+    try
+    {
+        Schedule schedule = Schedule.fromJSON(parseJSON(json));
+
+        assert(false);       
+    }
+    catch(EskomCalendarException e)
+    {
+        assert(e.getError() == ErrType.INVALID_SCHEDULE_DATA);
+    }
+}
