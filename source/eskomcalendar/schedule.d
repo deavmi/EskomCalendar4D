@@ -1,8 +1,9 @@
 module eskomcalendar.schedule;
 
 import std.datetime.systime : SysTime;
-import std.json : JSONValue;
+import std.json : JSONValue, JSONException;
 import std.conv : to;
+import eskomcalendar.exceptions;
 
 public struct Schedule
 {
@@ -43,10 +44,17 @@ public struct Schedule
     {
         Schedule schedule;
 
-        schedule.area = value["area_name"].str();
-        schedule.stage = cast(ubyte)(value["stage"].integer());
-        schedule.start = SysTime.fromISOExtString(value["start"].str());
-        schedule.finish = SysTime.fromISOExtString(value["finsh"].str());
+        try
+        {
+            schedule.area = value["area_name"].str();
+            schedule.stage = cast(ubyte)(value["stage"].integer());
+            schedule.start = SysTime.fromISOExtString(value["start"].str());
+            schedule.finish = SysTime.fromISOExtString(value["finsh"].str());
+        }
+        catch(JSONException e)
+        {
+            throw new EskomCalendarException(ErrType.INVALID_SCHEDULE_DATA);
+        }
 
         return schedule;
     }
