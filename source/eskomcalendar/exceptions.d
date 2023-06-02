@@ -33,4 +33,9 @@ public final class EskomCalendarException : Exception
         this.errType = errType;
         super(to!(string)(errType)~(msg.length ? (": "~msg) : ""));
     }
+
+    public ErrType getError()
+    {
+        return errType;
+    }
 }
