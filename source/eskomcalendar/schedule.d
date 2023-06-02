@@ -49,6 +49,16 @@ public struct Schedule
     }
 
     /** 
+     * Get's the name of the area this schedule is for
+     *
+     * Returns: the area's name
+     */
+    public string getArea()
+    {
+        return area;
+    }
+
+    /** 
      * Returns the starting time
      *
      * Returns: the starting time as a `SysTime`
