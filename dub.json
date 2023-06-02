@@ -2,6 +2,7 @@
 	"authors": [
 		"Tristan B. V. Kildaire"
 	],
+	"homepage": "https://deavmi.assigned.network/projects/",
 	"copyright": "Copyright © 2023, Tristan B. Kildaire",
 	"description": "Eskom Calendar client API library for D",
 	"license": "LGPL v3",
