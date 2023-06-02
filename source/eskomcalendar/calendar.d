@@ -277,3 +277,21 @@ unittest
         assert(false);
     }
 }
+
+/**
+ * Test failing network connection
+ */
+unittest
+{
+    EskomCalendar calendar = new EskomCalendar("http://sdhjdshkjdas.com");
+
+    try
+    {
+        calendar.getAreas();
+        assert(false);
+    }
+    catch(EskomCalendarException e)
+    {
+        assert(e.getError() == ErrType.NETWORK_ERROR);
+    }
+}
