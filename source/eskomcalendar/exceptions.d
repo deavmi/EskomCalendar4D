@@ -1,3 +1,6 @@
+/** 
+ * Error handling definitions
+ */
 module eskomcalendar.exceptions;
 
 import std.conv : to;
