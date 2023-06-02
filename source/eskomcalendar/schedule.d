@@ -118,3 +118,36 @@ public struct Schedule
         return "Schedule [area: "~area~", stage: "~to!(string)(stage)~", from: "~start.toLocalTime().toSimpleString()~", to: "~finish.toLocalTime().toSimpleString()~"]";
     }
 }
+
+version(unittest)
+{
+    import std.json : parseJSON;
+}
+
+/**
+ * Test building a `Schedule` from the example JSON
+ */
+unittest
+{
+    string json = `
+    {
+    "area_name": "western-cape-worscester",
+    "stage": 4,
+    "start": "2023-06-01T14:00:00+02:00",
+    "finsh": "2023-06-01T14:30:00+02:00",
+    "source": "https://twitter.com/Eskom_SA/status/1664250326818365440"
+  }`;
+
+    try
+    {
+        Schedule schedule = Schedule.fromJSON(parseJSON(json));
+
+        assert(schedule.getArea() == "western-cape-worscester");
+    }
+    catch(EskomCalendarException e)
+    {
+        assert(false);
+    }
+    
+
+}
