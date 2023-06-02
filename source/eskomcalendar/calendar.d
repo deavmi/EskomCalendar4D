@@ -108,7 +108,7 @@ public class EskomCalendar
      *
      * Params:
      *   area = the area to check for schedules
-     * Returns: 
+     * Returns: an array of `Schedule`(s) 
      */
     public Schedule[] getTodaySchedules(string area)
     {
