@@ -1,3 +1,6 @@
+/**
+ * The client API
+ */
 module eskomcalendar.calendar;
 
 import std.stdio;
@@ -8,6 +11,9 @@ import eskomcalendar.schedule;
 import std.datetime : SysTime;
 import eskomcalendar.exceptions;
 
+/** 
+ * Client API wrapper for the eskom-calendar service
+ */
 public class EskomCalendar
 {
     private string calendarServer;
