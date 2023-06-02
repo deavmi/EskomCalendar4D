@@ -137,21 +137,47 @@ public class EskomCalendar
         return getSchedules(area, startTime, endTime);
     }
 
+    /** 
+     * 
+     * Params:
+     *   area = 
+     *   startTime = 
+     * Returns: 
+     */
     public Schedule[] getSchedulesFrom(string area, SysTime startTime)
     {
         return getSchedules(area, startTime);
     }
 
+    /** 
+     * 
+     * Params:
+     *   area = 
+     *   finishTime = 
+     * Returns: 
+     */
     public Schedule[] getSchedulesUntil(string area, SysTime finishTime)
     {
         return getSchedules(area, SysTime.min(), finishTime);
     }
 
+    /** 
+     * Get all the areas
+     *
+     * Returns: an array of `string` of the area names
+     */
     public string[] getAreas()
     {
         return getAreas("");
     }
 
+    /** 
+     * Get all areas matching a given regular expression
+     *
+     * Params:
+     *   regex = the regular expression
+     * Returns: an array of `string` of the area names
+     */
     public string[] getAreas(string regex)
     {
         // Apply any URL escaping needed
