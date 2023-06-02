@@ -1,3 +1,6 @@
+/** 
+ * Scheduling-related definitions
+ */
 module eskomcalendar.schedule;
 
 import std.datetime.systime : SysTime;
@@ -5,6 +8,11 @@ import std.json : JSONValue, JSONException;
 import std.conv : to;
 import eskomcalendar.exceptions;
 
+/** 
+ * Represents a schedule for a given area,
+ * this includes the stage and the start
+ * and end time
+ */
 public struct Schedule
 {
     /** 
@@ -22,7 +30,17 @@ public struct Schedule
      */
     private SysTime start, finish;
 
-    this(string area, ubyte stage, SysTime start, SysTime finish)
+    /** 
+     * Constructs a new `Schedule` for the given area
+     * with its stage and starting and ending times
+     *
+     * Params:
+     *   area = the area
+     *   stage = the level of load shedding
+     *   start = starting time
+     *   finish = ending time
+     */
+    private this(string area, ubyte stage, SysTime start, SysTime finish)
     {
         this.area = area;
         this.stage = stage;
@@ -30,26 +48,43 @@ public struct Schedule
         this.finish = finish;
     }
 
+    /** 
+     * Returns the starting time
+     *
+     * Returns: the starting time as a `SysTime`
+     */
     public SysTime getStart()
     {
         return start;
     }
 
+    /** 
+     * Returns the ending time
+     *
+     * Returns: the starting time as a `SysTime`
+     */
     public SysTime getFinish()
     {
         return finish;
     }
 
-    public static Schedule fromJSON(JSONValue value)
+    /** 
+     * Constructs a new `Schedule` from the provided JSON
+     *
+     * Params:
+     *   json = the json to parse the schedule from
+     * Returns: the parsed `Schedule`
+     */
+    public static Schedule fromJSON(JSONValue json)
     {
         Schedule schedule;
 
         try
         {
-            schedule.area = value["area_name"].str();
-            schedule.stage = cast(ubyte)(value["stage"].integer());
-            schedule.start = SysTime.fromISOExtString(value["start"].str());
-            schedule.finish = SysTime.fromISOExtString(value["finsh"].str());
+            schedule.area = json["area_name"].str();
+            schedule.stage = cast(ubyte)(json["stage"].integer());
+            schedule.start = SysTime.fromISOExtString(json["start"].str());
+            schedule.finish = SysTime.fromISOExtString(json["finsh"].str());
         }
         catch(JSONException e)
         {
@@ -59,6 +94,11 @@ public struct Schedule
         return schedule;
     }
 
+    /** 
+     * Returns a string representation of the schedule
+     *
+     * Returns: a `string` representation
+     */
     public string toString()
     {
         return "Schedule [area: "~area~", stage: "~to!(string)(stage)~", from: "~start.toLocalTime().toSimpleString()~", to: "~finish.toLocalTime().toSimpleString()~"]";
