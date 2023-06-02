@@ -14,9 +14,14 @@ public enum ErrType
 
     /** 
      * If there were no schedules available
-     for the given area
+     * for the given area
      */
     NO_SCHEDULES_AVAILABLE,
+
+    /** 
+     * On error parsing schedule data
+     */
+    INVALID_SCHEDULE_DATA,
 
     /** 
      * On error contacting the calendar server
