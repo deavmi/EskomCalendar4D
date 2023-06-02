@@ -4,11 +4,8 @@ import std.stdio;
 import std.json;
 import std.net.curl : get, CurlException;
 import std.conv : to;
-
 import eskomcalendar.schedule;
-
 import std.datetime : SysTime;
-
 import eskomcalendar.exceptions;
 
 public class EskomCalendar
@@ -138,11 +135,12 @@ public class EskomCalendar
     }
 
     /** 
-     * 
+     * Gets schedules from a given time
+     *
      * Params:
-     *   area = 
-     *   startTime = 
-     * Returns: 
+     *   area = the area to check for schedules
+     *   startTime = the time to check from
+     * Returns: an array of `Schedule`(s) 
      */
     public Schedule[] getSchedulesFrom(string area, SysTime startTime)
     {
@@ -150,11 +148,12 @@ public class EskomCalendar
     }
 
     /** 
-     * 
+     * Gets schedules up until a given time
+     *
      * Params:
-     *   area = 
-     *   finishTime = 
-     * Returns: 
+     *   area = the area to check for schedules
+     *   finishTime = the time to check til
+     * Returns: an array of `Schedule`(s) 
      */
     public Schedule[] getSchedulesUntil(string area, SysTime finishTime)
     {
