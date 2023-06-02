@@ -46,6 +46,8 @@ public struct Schedule
         this.stage = stage;
         this.start = start;
         this.finish = finish;
+
+        // TODO: Add source
     }
 
     /** 
@@ -95,6 +97,8 @@ public struct Schedule
             schedule.stage = cast(ubyte)(json["stage"].integer());
             schedule.start = SysTime.fromISOExtString(json["start"].str());
             schedule.finish = SysTime.fromISOExtString(json["finsh"].str());
+
+            // TODO: Parse source
         }
         catch(JSONException e)
         {
