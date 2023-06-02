@@ -21,7 +21,7 @@ public struct Schedule
     private string area;
 
     /** 
-     * The stage level (god forbid bigger than a byte)
+     * The stage level
      */
     private ubyte stage;
 
@@ -29,6 +29,11 @@ public struct Schedule
      * Start and finish time
      */
     private SysTime start, finish;
+    
+    /** 
+     * The source this schedule was gleamed from
+     */
+    private string source;
 
     /** 
      * Constructs a new `Schedule` for the given area
@@ -39,15 +44,15 @@ public struct Schedule
      *   stage = the level of load shedding
      *   start = starting time
      *   finish = ending time
+     *   source = the source this schedule was gleamed from
      */
-    private this(string area, ubyte stage, SysTime start, SysTime finish)
+    private this(string area, ubyte stage, SysTime start, SysTime finish, string source)
     {
         this.area = area;
         this.stage = stage;
         this.start = start;
         this.finish = finish;
-
-        // TODO: Add source
+        this.source = source;
     }
 
     /** 
@@ -58,6 +63,16 @@ public struct Schedule
     public string getArea()
     {
         return area;
+    }
+
+    /**
+     * Returns the load shedding stage level
+     *
+     * Returns: the stage
+     */
+    public ubyte getStage()
+    {
+        return stage;
     }
 
     /** 
@@ -81,6 +96,16 @@ public struct Schedule
     }
 
     /** 
+     * Returns the source this schedule was gleamed from
+     *
+     * Returns: the source
+     */
+    public string getSource()
+    {
+        return source;
+    }
+
+    /** 
      * Constructs a new `Schedule` from the provided JSON
      *
      * Params:
@@ -97,8 +122,7 @@ public struct Schedule
             schedule.stage = cast(ubyte)(json["stage"].integer());
             schedule.start = SysTime.fromISOExtString(json["start"].str());
             schedule.finish = SysTime.fromISOExtString(json["finsh"].str());
-
-            // TODO: Parse source
+            schedule.source = json["source"].str();
         }
         catch(JSONException e)
         {
@@ -143,6 +167,10 @@ unittest
         Schedule schedule = Schedule.fromJSON(parseJSON(json));
 
         assert(schedule.getArea() == "western-cape-worscester");
+        assert(schedule.getStage() == 4);
+        assert(schedule.getStart() == SysTime.fromISOExtString("2023-06-01T14:00:00+02:00"));
+        assert(schedule.getFinish() == SysTime.fromISOExtString("2023-06-01T14:30:00+02:00"));
+        assert(schedule.getSource() == "https://twitter.com/Eskom_SA/status/1664250326818365440");        
     }
     catch(EskomCalendarException e)
     {
