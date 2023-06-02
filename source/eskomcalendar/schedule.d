@@ -13,7 +13,7 @@ import eskomcalendar.exceptions;
  * this includes the stage and the start
  * and end time
  */
-public struct Schedule
+public class Schedule
 {
     /** 
      * Area this schedule applies to
@@ -36,23 +36,12 @@ public struct Schedule
     private string source;
 
     /** 
-     * Constructs a new `Schedule` for the given area
-     * with its stage and starting and ending times
-     *
-     * Params:
-     *   area = the area
-     *   stage = the level of load shedding
-     *   start = starting time
-     *   finish = ending time
-     *   source = the source this schedule was gleamed from
+     * Private constructor to disallow creation except
+     * via the static factory method
      */
-    private this(string area, ubyte stage, SysTime start, SysTime finish, string source)
+    private this()
     {
-        this.area = area;
-        this.stage = stage;
-        this.start = start;
-        this.finish = finish;
-        this.source = source;
+
     }
 
     /** 
@@ -114,7 +103,7 @@ public struct Schedule
      */
     public static Schedule fromJSON(JSONValue json)
     {
-        Schedule schedule;
+        Schedule schedule = new Schedule();
 
         try
         {
@@ -137,7 +126,7 @@ public struct Schedule
      *
      * Returns: a `string` representation
      */
-    public string toString()
+    public override string toString()
     {
         return "Schedule [area: "~area~", stage: "~to!(string)(stage)~", from: "~start.toLocalTime().toSimpleString()~", to: "~finish.toLocalTime().toSimpleString()~"]";
     }
