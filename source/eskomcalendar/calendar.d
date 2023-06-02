@@ -278,7 +278,7 @@ unittest
 }
 
 /**
- * Get the first 40 areas and print them
+ * Get all areas
  */
 unittest
 {
